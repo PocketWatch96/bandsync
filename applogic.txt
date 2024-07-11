@@ -1,0 +1,2 @@
+1. gigs can only be deleted if they are open. closed gigs cannot be deleted
+    - logic implemented in delete block for gigs
