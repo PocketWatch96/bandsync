@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
+import mongoose, { Model } from "mongoose";
+import connectionPromise from "./InventoryDb";
 
 const { Schema } = mongoose;
 
-mongoose.connect(process.env.MONGO_INVENTORYDB_URI!);
-mongoose.Promise = global.Promise;
-
-const inventorySchema = new Schema(
+export const inventorySchema = new Schema(
     {
-        name: String,
+        item: String,
+        description: String,
         type: String,
         assigned_status: String,
     },
@@ -16,7 +16,22 @@ const inventorySchema = new Schema(
     }
 );
 
-const Inventory =
-    mongoose.models.Inventory || mongoose.model("Inventory", inventorySchema);
+let Inventory: Model<InventoryType>;
 
-export default Inventory;
+try {
+    const connection = connectionPromise;
+    Inventory =
+        connection.models.Inventory ||
+        connection.model<InventoryType>("Inventory", inventorySchema);
+} catch (err) {
+    console.error("Error creating Inventory model:", err);
+}
+
+export interface InventoryType {
+    _id: ObjectId;
+    item: string;
+    description: string;
+    assigned_status: string;
+}
+
+export default Inventory!;

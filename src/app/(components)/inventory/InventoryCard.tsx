@@ -1,24 +1,22 @@
 import Link from "next/link";
-import ClientDelete from "./ClientDelete";
-import { ClientType } from "@/app/(models)/Client";
+import InventoryDelete from "./InventoryDelete";
+import { InventoryType } from "@/app/(models)/Inventory";
 
 interface PageProps {
-    client: ClientType;
+    inventory: InventoryType;
 }
 
-const ClientCard = ({ client }: PageProps) => {
+const InventoryCard = ({ inventory }: PageProps) => {
     return (
         <div className="card flex flex-col bg-base-300 shadow-lg p-4 m-2 hover:bg-base-200">
             <div className="flex mb-3">
-                <div className="text-lg">
-                    {client.fname} {client.lname}
-                </div>
+                <div className="text-lg">{inventory.item}</div>
                 <div className="ml-auto">
-                    <ClientDelete clientId={client._id.toString()} />
+                    <InventoryDelete inventoryId={inventory._id.toString()} />
                 </div>
             </div>
             <Link
-                href={`/clients/${client._id}`}
+                href={`/inventory/${inventory._id}`}
                 style={{ display: "contents" }}
             >
                 <hr className="h-px border-0 bg-primary mb-2" />
@@ -27,19 +25,19 @@ const ClientCard = ({ client }: PageProps) => {
                     <div className="p-2 w-full">
                         <div className="flex flex-row items-center w-full">
                             <div className="flex justify-start">
-                                <strong>E-mail: </strong>
+                                <strong>Description: </strong>
                             </div>
                             <div className="flex ml-auto justify-end">
-                                {client.email}
+                                {inventory.description}
                             </div>
                         </div>
                         <div className="flex flex-row items-center w-full">
                             <div className="flex justify-start">
-                                <strong>Phone Number: </strong>
+                                <strong>Status: </strong>
                             </div>
-                            <p className="flex ml-auto justify-end">
-                                {client.phone}
-                            </p>
+                            <div className="flex ml-auto justify-end">
+                                {inventory.assigned_status}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,4 +46,4 @@ const ClientCard = ({ client }: PageProps) => {
     );
 };
 
-export default ClientCard;
+export default InventoryCard;

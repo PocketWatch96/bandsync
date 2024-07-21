@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import MainLayout from "@/app/(components)/MainLayout";
 import "./globals.css";
 import Link from "next/link";
+import {
+    ClerkProvider,
+    SignedIn,
+    SignedOut,
+    SignInButton,
+} from "@clerk/nextjs";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -13,5 +19,11 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return <MainLayout>{children}</MainLayout>;
+    return (
+        <html>
+            <body>
+                <MainLayout>{children}</MainLayout>
+            </body>
+        </html>
+    );
 }

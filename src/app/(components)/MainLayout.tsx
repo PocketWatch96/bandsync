@@ -1,12 +1,24 @@
 "use client";
 
+import {
+    ClerkProvider,
+    SignedIn,
+    SignedOut,
+    SignIn,
+    SignInButton,
+    UserButton,
+} from "@clerk/nextjs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
+import { BandPage } from "./bands/bandPage";
 
-const Page = ({ children }: { children: ReactNode }) => {
+const MainLayout = ({ children }: { children: ReactNode }) => {
+    const router = useRouter();
+
     return (
-        <html lang="en">
-            <body>
+        <ClerkProvider>
+            <SignedIn>
                 <div className="drawer drawer-end">
                     <input
                         id="my-drawer"
@@ -14,7 +26,7 @@ const Page = ({ children }: { children: ReactNode }) => {
                         className="drawer-toggle"
                     />
                     <div className="drawer-content">
-                        <header className="navbar bg-neutral">
+                        <header className="navbar bg-base-300">
                             <div className="navbar-start">
                                 <Link
                                     href="/"
@@ -24,6 +36,9 @@ const Page = ({ children }: { children: ReactNode }) => {
                                 </Link>
                             </div>
                             <div className="navbar-end">
+                                <SignedIn>
+                                    <UserButton />
+                                </SignedIn>
                                 <label
                                     htmlFor="my-drawer"
                                     className="btn btn-square btn-ghost drawer-button"
@@ -44,6 +59,8 @@ const Page = ({ children }: { children: ReactNode }) => {
                                 </label>
                             </div>
                         </header>
+                        {children}
+                        <BandPage />
                     </div>
                     <div className="drawer-side">
                         <label
@@ -127,11 +144,13 @@ const Page = ({ children }: { children: ReactNode }) => {
                             </li>
                         </ul>
                     </div>
-                    {children}
                 </div>
-            </body>
-        </html>
+            </SignedIn>
+            <SignedOut>
+                <SignIn />
+            </SignedOut>
+        </ClerkProvider>
     );
 };
 
-export default Page;
+export default MainLayout;

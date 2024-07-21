@@ -5,27 +5,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 
 interface PageProps {
-    clientId: string;
+    inventoryId: string;
 }
 
-const ClientDelete = ({ clientId }: PageProps) => {
+const InventoryDelete = ({ inventoryId }: PageProps) => {
     const router = useRouter();
 
-    const deleteClient = async () => {
+    const deleteInventory = async () => {
         try {
-            console.log("Client ID: ", clientId)
-            const res = await fetch(`/api/Clients/${clientId}`, {
+            const res = await fetch(`/api/Inventory/${inventoryId}`, {
                 method: "DELETE",
             });
 
             if (res.ok) {
-                console.log("Page realoading")
-                window.location.reload()
+                window.location.reload();
             } else {
-                console.error("Failed to delete client");
+                console.error("Failed to delete inventory");
             }
         } catch (error) {
-            console.error("Error deleting client:", error);
+            console.error("Error deleting inventory:", error);
         }
     };
 
@@ -33,9 +31,9 @@ const ClientDelete = ({ clientId }: PageProps) => {
         <FontAwesomeIcon
             icon={faX}
             className="icon hover:cursor-pointer hover:text-xButtonRed"
-            onClick={deleteClient}
+            onClick={deleteInventory}
         />
     );
 };
 
-export default ClientDelete;
+export default InventoryDelete;

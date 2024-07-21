@@ -1,10 +1,36 @@
+"use client";
+
 import { faUsersLine, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import ClientCard from "../(components)/clients/ClientCard";
+import { useEffect, useState } from "react";
+import { ClientType } from "../(models)/Client";
 
 const { FontAwesomeIcon } = require("@fortawesome/react-fontawesome");
 
 const Clients = () => {
+    const [clients, setClients] = useState([]);
+
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+                const res = await fetch("/api/Clients");
+                const data = await res.json();
+                
+                setClients(
+                    data.clients.sort(
+                        (a: { fname: string }, b: { fname: string }) =>
+                            a.fname.localeCompare(b.fname)
+                    )
+                );
+            } catch (error) {
+                console.error("Error fetching clients:", error);
+            }
+        };
+
+        fetchClients();
+    }, []);
+
     return (
         <div>
             <div className="min-w-full flex justify-start align-baseline">
@@ -25,16 +51,13 @@ const Clients = () => {
                     </Link>
                 </div>
                 <div className="p-4">
-                    <div className="lg:grid grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
-                        <ClientCard />
+                    <div className="lg:grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
+                        {clients.map((client: ClientType) => (
+                            <ClientCard
+                                key={client._id.toString()}
+                                client={client}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
