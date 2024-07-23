@@ -11,7 +11,7 @@ const clientSchema = new Schema(
         email: String,
         phone: String,
         cUserId: String,
-        cOrdId: String,
+        cOrgId: String,
     },
     {
         timestamps: { createdAt: "createdDate", updatedAt: "updateDate" },
@@ -35,7 +35,7 @@ export interface ClientType {
     email: string;
     phone: string;
     cUserId: String;
-    cOrdId: String;
+    cOrgId: String;
     createdDate?: Date;
     updateDate?: Date;
 }

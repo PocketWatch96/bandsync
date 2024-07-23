@@ -5,16 +5,19 @@ import Link from "next/link";
 import ClientCard from "../(components)/clients/ClientCard";
 import { useEffect, useState } from "react";
 import { ClientType } from "../(models)/Client";
+import { useOrganization } from "@clerk/nextjs";
 
 const { FontAwesomeIcon } = require("@fortawesome/react-fontawesome");
 
 const Clients = () => {
     const [clients, setClients] = useState([]);
+    const {organization} = useOrganization()
+    const orgId = organization?.id
 
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const res = await fetch("/api/Clients");
+                const res = await fetch(`/api/Clients?cOrgId=${orgId}`);
                 const data = await res.json();
                 
                 setClients(
@@ -29,7 +32,7 @@ const Clients = () => {
         };
 
         fetchClients();
-    }, []);
+    }, [orgId]);
 
     return (
         <div>

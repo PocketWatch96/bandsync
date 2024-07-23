@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState, useEffect } from "react";
-import { useAuth } from "@clerk/nextjs"; // Import Clerk's useAuth hook
+import { useUser, useOrganization } from "@clerk/nextjs"; // Import Clerk's useUser and useOrganization hooks
 
 const AggGigsForm = ({ client }: { client: any }) => {
     const defClValues = {
@@ -16,7 +16,8 @@ const AggGigsForm = ({ client }: { client: any }) => {
 
     const [formData, setFormData] = useState(defClValues);
     const router = useRouter();
-    const { userId, orgId } = useAuth(); // Get userId and orgId from Clerk
+    const { user } = useUser();
+    const { organization } = useOrganization();
 
     const EDITMODE = client._id === "new" ? false : true;
     let formHeading = "Add a client";
@@ -37,14 +38,14 @@ const AggGigsForm = ({ client }: { client: any }) => {
 
     useEffect(() => {
         // Set userId and orgId in formData when component mounts
-        setFormData((prevState) => (
-            {
+        setFormData((prevState) => ({
             ...prevState,
-            cUserId: userId || "User id seems to be null",
-            cOrgId: orgId || "",
+            cUserId: user?.id || "User id seems to be null",
+            cOrgId: organization?.id || "",
         }));
         console.log("UserID: ", formData.cUserId)
-    }, [userId, orgId]);
+        console.log("OrgID: ", formData.cOrgId)
+    }, [user, organization]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

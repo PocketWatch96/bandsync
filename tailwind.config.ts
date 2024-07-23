@@ -16,11 +16,12 @@ const config: Config = {
         },
         colors: {
             xButtonRed: "#DB4654",
+            neutralText: "#C4C5D0",
         },
     },
     plugins: [require("daisyui")],
     daisyui: {
-        themes: ["emerald"],
+        themes: ["retro"],
     },
 };
 export default config;

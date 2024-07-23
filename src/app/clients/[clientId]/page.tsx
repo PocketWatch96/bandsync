@@ -1,3 +1,4 @@
+import { SignedIn } from "@clerk/nextjs";
 import ClientForm from "../../(components)/clients/ClientForm";
 
 const getClientById = async (clientId: string) => {
@@ -31,9 +32,11 @@ const ClientAandE = async ({ params }: { params: { clientId: string } }) => {
     }
 
     return (
-        <div className="p-4">
-            <ClientForm client={updateClientData} />
-        </div>
+        <SignedIn>
+            <div className="p-4">
+                <ClientForm client={updateClientData} />
+            </div>
+        </SignedIn>
     );
 };
 
